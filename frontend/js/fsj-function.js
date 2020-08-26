@@ -1,31 +1,28 @@
+// Set BirthDate Value
 let date = "<option disabled selected value>Date</option>";
 for (let i = 1; i <= 31; i++) {
-    date = date.concat("<option value='1'>" + i + "</option>")
+    date = date.concat("<option value='" + i + "'>" + i + "</option>")
 }
 
 let month = "<option disabled selected value>Month</option>";
 for (let i = 1; i <= 12; i++) {
-    month = month.concat("<option value='1'>" + i + "</option>")
+    month = month.concat("<option value='" + i + "'>" + i + "</option>")
 }
 let today = new Date();
 let yyyy = today.getFullYear();
 
 let year = "<option disabled selected value>Year</option>";
 for (let i = yyyy - 40; i <= yyyy - 10; i++) {
-    year = year.concat("<option value='1'>" + i + "</option>")
+    year = year.concat("<option value='" + i + "'>" + i + "</option>")
 }
-//Setting the Input Date
+
+
 $("#date").html(date);
 $("#month").html(month);
 $("#year").html(year);
 
-//Form Input
 
-$("#formInput").submit(function (e) {
-    $("#loginModal").modal({backdrop: 'static', keyboard: false});
-    e.preventDefault();
-});
-
+//Give Default Tooltip
 $('[data-toggle=popover]').popover();
 $(document).on('click', '#button', function () {
     alert('Clicked');
@@ -56,7 +53,6 @@ let firstNameValidate = false;
 let lastNameValidate = false;
 let emailValidate = false;
 
-
 // Validate Mobile Number
 $('#mobileNumber').keyup(function () {
     //Indonesian Number 11 to 14 digit
@@ -64,7 +60,7 @@ $('#mobileNumber').keyup(function () {
     let mobileNumberIdnFormat = true;
     let mobileNumberExist = false;
     let mobileNumberTimeOut = false;
-    let validated = validateFormatIndonesian(mobileNumber);
+    let validated = validateIndonesianMobileNumberFormat(mobileNumber);
     if (true === validated) {
         $('#mobileNumber').tooltip({trigger: 'manual'}).tooltip('hide');
     } else {
@@ -88,12 +84,12 @@ $('#mobileNumber').keyup(function () {
         }
 
     });
-    // console.log(mobileNumberExist);
     mobileNumberValidate = mobileNumberIdnFormat === true && mobileNumberExist === false && mobileNumberTimeOut === false;
 
     checkValidate();
 });
 
+//Validate Firstname
 $('#firstName').keyup(function () {
     let firstName = this.value;
     if ('' === firstName) {
@@ -107,6 +103,7 @@ $('#firstName').keyup(function () {
 });
 
 
+//Validate Lastname
 $('#lastName').keyup(function () {
     let lastName = this.value;
     if ('' === lastName) {
@@ -119,11 +116,12 @@ $('#lastName').keyup(function () {
     checkValidate();
 });
 
+//Validate Email
 $('#email').keyup(function () {
     let email = this.value;
     let emailExist = false;
     let emailTimeOut = false;
-    let validated = validateEmail(email);
+    let validated = validateEmailFormat(email);
     let emailFormat = true;
 
     if (true === validated) {
@@ -148,11 +146,13 @@ $('#email').keyup(function () {
             emailTimeOut = true;
         }
     });
-    emailValidate = emailFormat === false && false === emailExist && emailTimeOut === false;
+
+    emailValidate = true === emailFormat && false === emailExist && emailTimeOut === false;
     checkValidate();
 });
 
 function checkValidate() {
+
     if ((true === mobileNumberValidate) && (true === firstNameValidate) && (true === lastNameValidate) && (true === emailValidate)) {
         $('#buttonSubmit').removeAttr('disabled')
     } else {
@@ -161,15 +161,56 @@ function checkValidate() {
 }
 
 
-function validateFormatIndonesian(phoneNumber) {
+function validateIndonesianMobileNumberFormat(phoneNumber) {
     let phoneNumberPattern = /^(^\+628|628|^08)(\d{3,4}-?){2}\d{3,4}$/g;
     return phoneNumberPattern.test(phoneNumber);
 }
 
-function validateEmail(email) {
+function validateEmailFormat(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 }
+
+//Function for Submit Data
+$("#formInput").submit(function (e) {
+
+    let selectedGender = "";
+    let genderElement = $("input[type='radio'][name='gender']:checked");
+    if (genderElement.length > 0) {
+        selectedGender = genderElement.val();
+    }
+    let data = {
+        "mobile_number": $('#mobileNumber').val(),
+        "first_name": $('#firstName').val(),
+        "last_name": $('#lastName').val(),
+        "email": $('#email').val()
+    }
+    let date = $('#date').val();
+    let month = $('#month').val();
+    let year = $('#year').val();
+
+    if (null != date && null != month && null != year) {
+        data.birth_date = date + "/" + month + "/" + year;
+    }
+    if ("" !== selectedGender) {
+        data.gender = selectedGender;
+    }
+
+    $.ajax({
+        type: "POST",
+        async: false,
+        data: JSON.stringify(data),
+        dataType: 'JSON',
+        contentType: 'application/json',
+        url: "http://localhost:8080/register",
+        success: function () {
+            $("#loginModal").modal();
+        }
+    });
+
+    e.preventDefault();
+
+});
 
 
 

@@ -63,6 +63,7 @@ $('#mobileNumber').keyup(function () {
     let mobileNumber = this.value;
     let mobileNumberIdnFormat = true;
     let mobileNumberExist = false;
+    let mobileNumberTimeOut = false;
     let validated = validateFormatIndonesian(mobileNumber);
     if (true === validated) {
         $('#mobileNumber').tooltip({trigger: 'manual'}).tooltip('hide');
@@ -80,10 +81,15 @@ $('#mobileNumber').keyup(function () {
                 mobileNumberExist = true;
                 $('#mobileNumber').attr('data-original-title', 'Duplicate Phone Number').tooltip({trigger: 'manual'}).tooltip('show');
             }
+        },
+        error : function (){
+            mobileNumberTimeOut = true;
+            $('#mobileNumber').attr('data-original-title', 'Mobile Number Checker Service Timeout').tooltip({trigger: 'manual'}).tooltip('show');
         }
+
     });
     // console.log(mobileNumberExist);
-    mobileNumberValidate = mobileNumberIdnFormat === true && mobileNumberExist === false;
+    mobileNumberValidate = mobileNumberIdnFormat === true && mobileNumberExist === false && mobileNumberTimeOut === false;
 
     checkValidate();
 });
@@ -116,6 +122,17 @@ $('#lastName').keyup(function () {
 $('#email').keyup(function () {
     let email = this.value;
     let emailExist = false;
+    let emailTimeOut = false;
+    let validated = validateEmail(email);
+    let emailFormat = true;
+
+    if (true === validated) {
+        $('#email').tooltip({trigger: 'manual'}).tooltip('hide');
+    } else {
+        $('#email').attr('data-original-title', 'Please Enter Valid Email Format').tooltip({trigger: 'manual'}).tooltip('show');
+        emailFormat = false;
+    }
+
     $.ajax({
         type: "GET",
         async: false,
@@ -123,18 +140,15 @@ $('#email').keyup(function () {
         success: function (response) {
             if ('' !== response) {
                 emailExist = true;
-                $('#email').attr('data-original-title', 'Duplicate Email');
+                $('#email').attr('data-original-title', 'Duplicate Email').tooltip('show');
             }
+        },
+        error : function (){
+            $('#email').attr('data-original-title', 'Email Check Service timeout').tooltip('show');
+            emailTimeOut = true;
         }
     });
-    if (validateEmail(email) && false === emailExist) {
-        $('#email').tooltip({trigger: 'manual'}).tooltip('hide');
-        emailValidate = true;
-    } else {
-        $('#email').attr('data-original-title', 'Ivalid Email Format');
-        $('#email').tooltip({trigger: 'manual'}).tooltip('show');
-        emailValidate = false;
-    }
+    emailValidate = emailFormat === false && false === emailExist && emailTimeOut === false;
     checkValidate();
 });
 

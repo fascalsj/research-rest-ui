@@ -131,6 +131,7 @@ $('#email').keyup(function () {
         $('#email').tooltip({trigger: 'manual'}).tooltip('hide');
         emailValidate = true;
     } else {
+        $('#email').attr('data-original-title', 'Ivalid Email Format');
         $('#email').tooltip({trigger: 'manual'}).tooltip('show');
         emailValidate = false;
     }

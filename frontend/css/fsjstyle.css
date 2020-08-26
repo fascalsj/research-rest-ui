@@ -42,7 +42,14 @@
 }
 
 .tooltip-inner {background-color: #f00;}
-.tooltip-arrow { border-bottom-color:#f00; }
-.bs-tooltip-top .arrow::before {
-    border-top-color: #f11414;
+.bs-tooltip-auto[x-placement^=top] .arrow::before, .bs-tooltip-top .arrow::before {
+    top: 0;
+    border-width: .4rem .4rem 0;
+    border-top-color: #f00;
+}
+
+.bs-tooltip-right .arrow::before {
+    right: 0;
+    border-width: .4rem .4rem .4rem 0;
+    border-right-color: #f00;
 }

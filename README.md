@@ -6,7 +6,7 @@ Web Page Application using HTML5, Jquery and Boostrap, and see the documentation
 ![Alt Text](usage.gif)
 
 ## Backend
-On Backend Application using SpringBoot. It have unit testing using Junit, handler exception,In Memory Database (H2) for Testing, and Database Postges for real register, and communitate with database using ORM. For running backend service go to backend and run
+On Backend Application using SpringBoot. It have unit testing using Junit, handler exception,In Memory Database (H2) for Testing, and Database Postges for real register, and communitate with database using JPA. For running backend service go to backend and run
 ```  mvn spring-boot:run ```. Before run backend service, make sure the database connection can integrate with backend application.
 
 ## Database

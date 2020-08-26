@@ -11,4 +11,4 @@ On Backend Application using SpringBoot. It have unit testing using Junit, handl
 Check on your ```application.properties``` to change database configuration.
 
 ## Database
-Database for register using postgres, in database folder is a dump file for import the data structures and data.
+For registration using postgres database, in database folder is a dump file for import the data structures and data.

@@ -11,7 +11,7 @@ let today = new Date();
 let yyyy = today.getFullYear();
 
 let year = "<option disabled selected value>Year</option>";
-for (i = yyyy - 40; i <= yyyy - 10; i++) {
+for (let i = yyyy - 40; i <= yyyy - 10; i++) {
     year = year.concat("<option value='1'>" + i + "</option>")
 }
 //Setting the Input Date
@@ -82,7 +82,7 @@ $('#mobileNumber').keyup(function () {
                 $('#mobileNumber').attr('data-original-title', 'Duplicate Phone Number').tooltip({trigger: 'manual'}).tooltip('show');
             }
         },
-        error : function (){
+        error: function () {
             mobileNumberTimeOut = true;
             $('#mobileNumber').attr('data-original-title', 'Mobile Number Checker Service Timeout').tooltip({trigger: 'manual'}).tooltip('show');
         }
@@ -143,7 +143,7 @@ $('#email').keyup(function () {
                 $('#email').attr('data-original-title', 'Duplicate Email').tooltip('show');
             }
         },
-        error : function (){
+        error: function () {
             $('#email').attr('data-original-title', 'Email Check Service timeout').tooltip('show');
             emailTimeOut = true;
         }
@@ -153,7 +153,7 @@ $('#email').keyup(function () {
 });
 
 function checkValidate() {
-    if ((true === mobileNumberValidate) && (true === firstNameValidate) && (true === lastNameValidate) && (true===emailValidate)) {
+    if ((true === mobileNumberValidate) && (true === firstNameValidate) && (true === lastNameValidate) && (true === emailValidate)) {
         $('#buttonSubmit').removeAttr('disabled')
     } else {
         $('#buttonSubmit').attr('disabled', true)

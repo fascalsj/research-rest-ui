@@ -9,8 +9,12 @@ import org.springframework.util.Assert;
 @Service
 public class RegistrationService {
 
-  @Autowired
+  final
   UserRepository userRepository;
+
+    public RegistrationService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public AccountEntity create(AccountEntity userEntity) {
         Assert.notNull(userEntity.getFirstName(), "Cannot process, because the firstname is null");

@@ -26,7 +26,7 @@ class RegistrationServiceTest {
         String dateOfBirth = "21/04/1994";
         String phoneNUmber = "08080808008";
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String gender = "male";
+        String email ="fascalsj@gmail.com";
 
         AccountEntity userEntity = new AccountEntity();
         userEntity.setFirstName(firstName);
@@ -34,6 +34,7 @@ class RegistrationServiceTest {
         userEntity.setGender(Gender.MALE);
         userEntity.setMobileNumber(phoneNUmber);
         userEntity.setBirthDate(formatter.parse(dateOfBirth));
+        userEntity.setEmail(email);
 
         AccountEntity actual = userService.create(userEntity);
 

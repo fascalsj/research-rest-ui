@@ -61,7 +61,7 @@ let emailValidate = false;
 $('#mobileNumber').keyup(function () {
     //Indonesian Number 11 to 14 digit
     let mobileNumber = this.value;
-    let mobileNumberIdnFormat = false;
+    let mobileNumberIdnFormat = true;
     let mobileNumberExist = false;
     let validated = validateFormatIndonesian(mobileNumber);
     if (true === validated) {
@@ -82,8 +82,9 @@ $('#mobileNumber').keyup(function () {
             }
         }
     });
+    // console.log(mobileNumberExist);
+    mobileNumberValidate = mobileNumberIdnFormat === true && mobileNumberExist === false;
 
-    mobileNumberValidate = true === mobileNumberIdnFormat && false === mobileNumberExist;
     checkValidate();
 });
 
@@ -137,7 +138,7 @@ $('#email').keyup(function () {
 });
 
 function checkValidate() {
-    if ((true === mobileNumberValidate) && (true === firstNameValidate) && (true === lastNameValidate)) {
+    if ((true === mobileNumberValidate) && (true === firstNameValidate) && (true === lastNameValidate) && (true===emailValidate)) {
         $('#buttonSubmit').removeAttr('disabled')
     } else {
         $('#buttonSubmit').attr('disabled', true)
